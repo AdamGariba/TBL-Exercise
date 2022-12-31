@@ -20,8 +20,7 @@ def create_app(test_config=None):
         pass
 
     # Register blueprints here
-    @app.route('/hello')
-    def hello():
-        return 'Hello, world'
+    from .home.routes import home_bp 
+    app.register_blueprint(home_bp)
 
     return app
