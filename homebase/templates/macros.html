@@ -1,0 +1,38 @@
+{% macro standings(record) %}
+    <table class="standings">
+        <thead>
+                {% if record['division']['id'] == 201 %}
+                    <th id="division">AL East</th>
+                {% elif record['division']['id'] == 202 %}
+                    <th id="division">AL Central</th>
+                {% elif record['division']['id'] == 200 %}
+                    <th id="division">AL West</th>
+                {% elif record['division']['id'] == 204 %}
+                    <th id="division">NL East</th>
+                {% elif record['division']['id'] == 205 %}
+                    <th id="division">NL Central</th>
+                {% elif record['division']['id'] == 203 %}
+                    <th id="division">NL West</th>
+                {% endif %}
+                <th>W</th>
+                <th>L</th>
+                <th>Pct</th>
+                <th>GB</th>
+                <th>L10</th>
+                <th>DIFF</th>
+        </thead>
+        <tbody>
+            {% for teamrecord in record['teamRecords'] %}
+                <tr>
+                    <td id="division"><a href="team/{{ teamrecord['team']['id'] }}">{{ teamrecord['team']['name'] }}</a></td>
+                    <td>{{ teamrecord['leagueRecord']['wins'] }}</td>
+                    <td>{{ teamrecord['leagueRecord']['losses'] }}</td>
+                    <td>{{ teamrecord['leagueRecord']['pct'] }}</td>
+                    <td>{{ teamrecord['gamesBack'] }}</td>
+                    <td>{{ teamrecord['records']['splitRecords'][8]['wins'] }}-{{ teamrecord['records']['splitRecords'][8]['losses'] }}</td>
+                    <td>{{ teamrecord['runDifferential'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
