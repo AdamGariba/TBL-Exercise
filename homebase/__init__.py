@@ -19,8 +19,14 @@ def create_app(test_config=None):
     except OSError:
         pass
 
+    from . import db
+    db.init_app(app)
+
     # Register blueprints here
     from .home.routes import home_bp 
     app.register_blueprint(home_bp)
+
+    from .team.routes import team_bp
+    app.register_blueprint(team_bp)
 
     return app
