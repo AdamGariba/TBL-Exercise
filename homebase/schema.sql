@@ -14,12 +14,12 @@ CREATE TABLE team (
     division_id INTEGER NOT NULL,
     name TEXT NOT NULL,
     abbr TEXT NOT NULL,
-    wins_this_season INTEGER NOT NULL DEFAULT 0,
-    losses_this_season INTEGER NOT NULL DEFAULT 0,
+    wins_this_season INTEGER NOT NULL DEFAULT -1,
+    losses_this_season INTEGER NOT NULL DEFAULT -1,
     win_pct TEXT NOT NULL DEFAULT '',
     games_back TEXT NOT NULL DEFAULT '',
     last_ten TEXT NOT NULL DEFAULT '',
-    run_diff TEXT NOT NULL DEFAULT '',
+    run_diff INTEGER NOT NULL DEFAULT -1,
     place_in_division TEXT,
     FOREIGN KEY (division_id) REFERENCES division (id)
 );
