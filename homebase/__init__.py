@@ -29,4 +29,7 @@ def create_app(test_config=None):
     from .team.routes import team_bp
     app.register_blueprint(team_bp)
 
+    from .player.routes import player_bp
+    app.register_blueprint(player_bp)
+
     return app
