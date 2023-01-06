@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<input type="radio" id="hitters" name="player" checked="checked" onclick="showTable()">
+<label for="hitters">Hitters</label>
+<input type="radio" id="pitchers" name="player" onclick="showTable()">
+<label for="pitchers">Pitchers</label>
+
+<table id="hitters_tbl">
+    <thead>
+        <th>Pos</th>
+        <th>#</th>
+        <th>Player</th>
+        <th>Age</th>
+        <th>B</th>
+        <th>T</th>
+        <th>PA</th>
+        <th>H</th>
+        <th>2B</th>
+        <th>3B</th>
+        <th>HR</th>
+        <th>SB</th>
+        <th>SO%</th>
+        <th>BB%</th>
+        <th>AVG</th>
+        <th>OBP</th>
+        <th>OPS</th>
+    </thead>
+    <tbody>
+        {% for player in hitters %}
+        <tr>
+            <td>{{ player['primaryPosition']['abbreviation'] }}</td>
+            {% if player['primaryNumber'] %}
+                <td>{{ player['primaryNumber'] }}</td>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            <td><a href="/player/{{ player['id'] }}">{{ player['lastFirstName'] }}</a></td>
+            <td>{{ player['currentAge'] }}</td>
+            <td>{{ player['batSide']['code'] }}</td>
+            <td>{{ player['pitchHand']['code'] }}</td>
+            {% if player['stats'] %}
+                <td>{{ player['stats'][0]['splits'][0]['stat']['plateAppearances'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['hits'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['doubles'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['triples'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['homeRuns'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['stolenBases'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['soPercent'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['bbPercent'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['avg'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['obp'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['ops'] }}</td>
+            {% else %}
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<table id="pitchers_tbl">
+    <thead>
+        <th>Pos</th>
+        <th>#</th>
+        <th>Pitcher</th>
+        <th>Age</th>
+        <th>T</th>
+        <th>IP</th>
+        <th>ERA</th>
+        <th>SO</th>
+        <th>BB</th>
+        <th>SO%</th>
+        <th>BB%</th>
+        <th>HR/9</th>
+        <th>OPS</th>
+    </thead>
+    <tbody>
+        {% for player in pitchers %}
+        <tr>
+            <td>{{ player['primaryPosition']['abbreviation'] }}</td>
+            {% if player['primaryNumber'] %}
+                <td>{{ player['primaryNumber'] }}</td>
+            {% else %}
+                <td>-</td>
+            {% endif %}
+            <td><a href="/player/{{ player['id'] }}">{{ player['lastFirstName'] }}</a></td>
+            <td>{{ player['currentAge'] }}</td>
+            <td>{{ player['pitchHand']['code'] }}</td>
+            {% if player['stats'] %}
+                <td>{{ player['stats'][0]['splits'][0]['stat']['inningsPitched'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['era'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['strikeOuts'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['baseOnBalls'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['soPercent'] }}%</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['bbPercent'] }}%</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['homeRunsPer9'] }}</td>
+                <td>{{ player['stats'][0]['splits'][0]['stat']['ops'] }}</td>
+            {% else %}
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

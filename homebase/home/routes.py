@@ -1,7 +1,11 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, abort
 import requests
 
+from ..db import get_db
+
 home_bp = Blueprint('home_bp', __name__)
+
+BASE_URL = "https://statsapi.mlb.com"
 
 @home_bp.route("/")
 def index():
@@ -12,4 +16,4 @@ def index():
         results = response.json()
         return render_template("home/index.html", records=results['records']) 
     except requests.exceptions.HTTPError as errh:
-        print(errh)
+        abort(errh.response.status_code)
