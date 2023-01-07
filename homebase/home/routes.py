@@ -11,7 +11,7 @@ BASE_URL = "https://statsapi.mlb.com"
 def index():
     try:
         db = get_db()
-        teams_list = db.execute('SELECT * FROM team').fetchall()
+        teams_list = db.execute('SELECT id, abbr FROM team').fetchall()
 
         teams = {}
         for t in teams_list:

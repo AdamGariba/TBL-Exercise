@@ -63,7 +63,7 @@ def getRowsOfTeams(endpoint):
 
                 t.run_diff = team['runDifferential']
 
-                t.place_in_division = team['divisionRank']
+                t.place_in_division = ordinal(team['divisionRank'])
 
                 # Append as tuples
                 rows_teams.append(t.as_tuple())
@@ -85,6 +85,17 @@ def getTeamAbbr(endpoint):
     except requests.exceptions.HTTPError as errh:
         print(errh)
         return "ZZZ"
+
+def ordinal(num):
+    if num == '1':
+        return num + 'st'
+    elif num == '2':
+        return num + 'nd'
+    elif num == '3':
+        return num + 'rd'
+    else:
+        return num + 'th'
+
 
 @click.command('init-db')
 def init_db_command():

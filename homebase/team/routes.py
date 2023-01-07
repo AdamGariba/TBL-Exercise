@@ -2,11 +2,19 @@ import copy
 from flask import Blueprint, abort, render_template
 import requests
 
+from ..db import get_db
+
 team_bp = Blueprint('team_bp', __name__)
 
 @team_bp.route('/team/<team_id>')
 def teamDetails(team_id):
     try:
+        # Get team info
+        db = get_db()
+        #teamInfo = db.execute("SELECT * FROM team WHERE id=?", (team_id,)).fetchone()
+        teamInfo = db.execute("SELECT team.id, team.name, division.name AS division_name, team.wins_this_season, team.losses_this_season, team.win_pct, team.games_back, team.place_in_division FROM team INNER JOIN division ON team.division_id=division.id WHERE team.id=?", (team_id,)).fetchone()
+
+
         req = requests.get(f"https://statsapi.mlb.com/api/v1/teams/{team_id}/roster/Active?hydrate=person(stats(type=season))")
         req.raise_for_status()
 
@@ -42,7 +50,7 @@ def teamDetails(team_id):
                 hitters.append(player)
 
 
-        return render_template('team/team_details.html', pitchers=pitchers, hitters=hitters)
+        return render_template('team/team_details.html', teamInfo=teamInfo, pitchers=pitchers, hitters=hitters)
     except requests.exceptions.HTTPError as errh:
         abort(errh.response.status_code)
 
@@ -85,6 +93,7 @@ def getTwoWayPlayerStats(playerId):
         pitchIdx = 0
         hitIdx = 0
 
+        # Need to check ordering of list since api returns the order of pitching and hitting differently
         if twoWayPlayer['stats'][0]['group']['displayName'] == "pitching":
             twoWayPlayer = calculatePitchingStats(twoWayPlayer, 0)
             twoWayPlayer = calculateHittingStats(twoWayPlayer, 1)

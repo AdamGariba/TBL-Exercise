@@ -1,6 +1,14 @@
+{% from 'macros.html' import placeInDiv %}
 {% extends 'base.html' %}
 
 {% block content %}
+<div>
+    <img src="" alt="TeamLogo" />
+    <div id="team-info">
+        <div>{{ teamInfo['name'] }}</div>
+        <div>{{ teamInfo['place_in_division'] }} in {{ teamInfo['division_name'] }}  {{ teamInfo['wins_this_season'] }} - {{ teamInfo['losses_this_season'] }} ({{ teamInfo['win_pct'] }}) - {{ teamInfo['games_back'] }} GB</div>
+    </div>
+</div>
 <input type="radio" id="hitters" name="player" checked="checked" onclick="showTable()">
 <label for="hitters">Hitters</label>
 <input type="radio" id="pitchers" name="player" onclick="showTable()">
