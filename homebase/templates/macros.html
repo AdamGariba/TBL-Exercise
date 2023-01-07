@@ -24,7 +24,7 @@
         <tbody>
             {% for teamrecord in record['teamRecords'] %}
                 <tr>
-                    <td id="division"><a href="team/{{ teamrecord['team']['id'] }}">{{ teamrecord['team']['name'] }}</a></td>
+                    <td id="division"><a href="team/{{ teamrecord['team']['id'] }}">{{ teamrecord['team']['abbr'] }}</a></td>
                     <td>{{ teamrecord['leagueRecord']['wins'] }}</td>
                     <td>{{ teamrecord['leagueRecord']['losses'] }}</td>
                     <td>{{ teamrecord['leagueRecord']['pct'] }}</td>
@@ -36,3 +36,4 @@
         </tbody>
     </table>
 {% endmacro %}
+

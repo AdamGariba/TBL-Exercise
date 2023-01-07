@@ -17,3 +17,7 @@
 #pitchers_tbl {
     display: none;
 }
+
+table {
+    font-size: small;
+}

@@ -85,6 +85,7 @@ def getTeamAbbr(endpoint):
     except requests.exceptions.HTTPError as errh:
         print(errh)
         return "ZZZ"
+
 @click.command('init-db')
 def init_db_command():
     """Clear the existing data and create new tables."""
