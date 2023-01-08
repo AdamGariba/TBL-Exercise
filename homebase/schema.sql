@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS division;
 DROP TABLE IF EXISTS team;
+DROP TABLE IF EXISTS teamplayers;
 
 
 CREATE TABLE division (
@@ -17,11 +18,18 @@ CREATE TABLE team (
     wins_this_season INTEGER NOT NULL DEFAULT -1,
     losses_this_season INTEGER NOT NULL DEFAULT -1,
     win_pct TEXT NOT NULL DEFAULT '',
+    wild_card_games_back TEXT NOT NULL DEFAULT '',
     games_back TEXT NOT NULL DEFAULT '',
     last_ten TEXT NOT NULL DEFAULT '',
     run_diff INTEGER NOT NULL DEFAULT -1,
     place_in_division TEXT,
     FOREIGN KEY (division_id) REFERENCES division (id)
+);
+
+CREATE TABLE teamplayers (
+    id INTEGER PRIMARY KEY,
+    team_id INTEGER NOT NULL,
+    FOREIGN KEY (team_id) REFERENCES team (id)
 );
 
 

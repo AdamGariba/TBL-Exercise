@@ -1,10 +1,11 @@
 import sqlite3
+import time
 
 import click
 from flask import current_app, g
 import requests
 
-from .models import Team
+from .models import Team, TeamPlayers
 
 BASE_URL = "https://statsapi.mlb.com"
 
@@ -32,8 +33,11 @@ def init_db():
 
     # Fill teams
     rows_teams = getRowsOfTeams("/api/v1/standings?leagueId=103,104")
-    print(f"rows: {rows_teams}")
-    db.executemany('INSERT INTO team (id, division_id, name, abbr, wins_this_season, losses_this_season, win_pct, games_back, last_ten, run_diff, place_in_division) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', rows_teams)
+    db.executemany('INSERT INTO team (id, division_id, name, abbr, wins_this_season, losses_this_season, win_pct, wild_card_games_back, games_back, last_ten, run_diff, place_in_division) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', rows_teams)
+    db.commit()
+
+    rows_players = getRowsOfPlayers(rows_teams)
+    db.executemany('INSERT INTO teamplayers (id, team_id) VALUES(?, ?);', rows_players)
     db.commit()
 
 # Function generates a list of tuples to insert into table
@@ -57,6 +61,7 @@ def getRowsOfTeams(endpoint):
                 t.wins_this_season = team['leagueRecord']['wins']
                 t.losses_this_season = team['leagueRecord']['losses']
                 t.win_pct = team['leagueRecord']['pct']
+                t.wild_card_games_back = team['wildCardGamesBack']
                 t.games_back = team['gamesBack']
 
                 t.last_ten = str(team['records']['splitRecords'][8]['wins']) + "-" + str(team['records']['splitRecords'][8]['losses']) 
@@ -71,6 +76,30 @@ def getRowsOfTeams(endpoint):
         return rows_teams
     except requests.exceptions.HTTPError as errh:
         e = Team.Team()
+        return [e.as_tuple()]
+
+def getRowsOfPlayers(teams_list):
+    try:
+        rows_players = []
+        for team in teams_list:
+           response = requests.get(f"{BASE_URL}/api/v1/teams/{team[0]}/roster")
+           response.raise_for_status()
+
+           results = response.json()
+           roster = results['roster']
+
+           for player in roster:
+               tp = TeamPlayers.TeamPlayers()
+               tp.player_id = player['person']['id']
+               tp.team_id = player['parentTeamId']
+
+               rows_players.append(tp.as_tuple())
+
+           time.sleep(1)
+
+        return rows_players
+    except requests.exceptions.HTTPError as errh:
+        e = TeamPlayers.TeamPlayers()
         return [e.as_tuple()]
 
 def getTeamAbbr(endpoint):
