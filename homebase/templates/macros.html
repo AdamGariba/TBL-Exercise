@@ -1,6 +1,7 @@
 {% macro standings(record) %}
     <table class="standings">
         <thead>
+            <tr>
                 {% if record['division']['id'] == 201 %}
                     <th id="division">AL East</th>
                 {% elif record['division']['id'] == 202 %}
@@ -20,11 +21,12 @@
                 <th>GB</th>
                 <th>L10</th>
                 <th>DIFF</th>
+            </tr>
         </thead>
         <tbody>
             {% for teamrecord in record['teamRecords'] %}
                 <tr>
-                    <td id="division"><a href="team/{{ teamrecord['team']['id'] }}">{{ teamrecord['team']['abbr'] }}</a></td>
+                    <td id="division"><img src="https://www.mlbstatic.com/team-logos/{{ teamrecord['team']['id'] }}.svg"/><a href="team/{{ teamrecord['team']['id'] }}">{{ teamrecord['team']['abbr'] }}</a></td>
                     <td>{{ teamrecord['leagueRecord']['wins'] }}</td>
                     <td>{{ teamrecord['leagueRecord']['losses'] }}</td>
                     <td>{{ teamrecord['leagueRecord']['pct'] }}</td>

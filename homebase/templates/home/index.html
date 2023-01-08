@@ -2,13 +2,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="flex-container">
-        <div class="column">
+    <div id="home-title-bar">Teams</div>
+    <div class="table-container">
+        <div class="column" id="AL">
             {% for record in records[:3] %}
                 {{ standings(record) }}
             {% endfor %}
         </div>
-        <div class="column">
+        <div class="column" id="NL">
             {% for record in records[3:] %}
                 {{ standings(record) }}
             {% endfor %}

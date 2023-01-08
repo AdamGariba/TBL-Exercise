@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <nav class="container"><img src="{{ url_for('static', filename='images/homebase-logo.png') }}" alt="homebase-logo" height="40px"></nav>
+        <nav class="container"><img id="nav-img" src="{{ url_for('static', filename='images/homebase-logo.png') }}" alt="homebase-logo"></nav>
     </header>
 
     <div class="container">{% block content %}{% endblock %}</div>
