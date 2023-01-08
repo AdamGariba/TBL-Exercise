@@ -37,3 +37,100 @@
     </table>
 {% endmacro %}
 
+{% macro hitterstable(player) %}
+<table class="hitters-table">
+    <thead>
+        <tr>
+            <th>Year</th>
+            <th>Team</th>
+            <th>G</th>
+            <th>PA</th>
+            <th>AB</th>
+            <th>R</th>
+            <th>H</th>
+            <th>2B</th>
+            <th>3B</th>
+            <th>HR</th>
+            <th>RBI</th>
+            <th>SB</th>
+            <th>BB</th>
+            <th>SO</th>
+            <th>OBP</th>
+            <th>SLG</th>
+            <th>OPS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for season in player['stats']['splits'] %}
+        {% if "numTeams" not in season %}
+            <tr>
+                <td>{{ season['season'] }}</td>
+                <td><a href="/team/{{ season['team']['id'] }}">{{ season['team']['abbr'] }}</a></td>
+                <td>{{ season['stat']['gamesPlayed'] }}</td>
+                <td>{{ season['stat']['plateAppearances'] }}</td>
+                <td>{{ season['stat']['atBats'] }}</td>
+                <td>{{ season['stat']['runs'] }}</td>
+                <td>{{ season['stat']['hits'] }}</td>
+                <td>{{ season['stat']['doubles'] }}</td>
+                <td>{{ season['stat']['triples'] }}</td>
+                <td>{{ season['stat']['homeRuns'] }}</td>
+                <td>{{ season['stat']['rbi'] }}</td>
+                <td>{{ season['stat']['stolenBases'] }}</td>
+                <td>{{ season['stat']['baseOnBalls'] }}</td>
+                <td>{{ season['stat']['strikeOuts'] }}</td>
+                <td>{{ season['stat']['obp'] }}</td>
+                <td>{{ season['stat']['slg'] }}</td>
+                <td>{{ season['stat']['ops'] }}</td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+{% endmacro %}
+
+{% macro pitcherstable(player) %}
+<table class="pitchers-table">
+    <thead>
+        <tr>
+            <th>Year</th>
+            <th>Team</th>
+            <th>G</th>
+            <th>IP</th>
+            <th>W</th>
+            <th>L</th>
+            <th>SV</th>
+            <th>ERA</th>
+            <th>WHIP</th>
+            <th>H</th>
+            <th>R</th>
+            <th>SO</th>
+            <th>BB</th>
+            <th>HR/9</th>
+            <th>OPS</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for season in player['stats']['splits'] %}
+        {% if "numTeams" not in season %}
+            <tr>
+                <td>{{ season['season'] }}</td>
+                <td><a href="/team/{{ season['team']['id'] }}">{{ season['team']['abbr'] }}</a></td>
+                <td>{{ season['stat']['gamesPlayed'] }}</td>
+                <td>{{ season['stat']['inningsPitched'] }}</td>
+                <td>{{ season['stat']['wins'] }}</td>
+                <td>{{ season['stat']['losses'] }}</td>
+                <td>{{ season['stat']['saves'] }}</td>
+                <td>{{ season['stat']['era'] }}</td>
+                <td>{{ season['stat']['whip'] }}</td>
+                <td>{{ season['stat']['hits'] }}</td>
+                <td>{{ season['stat']['runs'] }}</td>
+                <td>{{ season['stat']['strikeOuts'] }}</td>
+                <td>{{ season['stat']['baseOnBalls'] }}</td>
+                <td>{{ season['stat']['homeRunsPer9'] }}</td>
+                <td>{{ season['stat']['ops'] }}</td>
+            </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+{% endmacro %}

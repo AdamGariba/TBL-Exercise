@@ -1,0 +1,40 @@
+{% from 'macros.html' import hitterstable, pitcherstable %}
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="player-banner">
+    <div class="player-info">
+        <img src="" alt="player-picture"/>
+        <div>
+            {{ player['nameFirstLast'] }}
+            {{ player['primaryPosition']['abbreviation'] }}
+            <a href="/team/{{ player['currentTeamId'] }}">{{ player['currentTeam'] }}</a>
+        </div>
+    </div>
+    <div class="player-bio">
+        <table class="player-bio-table">
+            <thead>
+                <th>B/T</th>
+                <th>Age</th>
+                <th>H</th>
+                <th>W</th>
+                <th>Drafted</th>
+            </thead>
+            <tbody>
+                <td>{{ player['batSide']['code'] }}/{{ player['pitchHand']['code'] }}</td>
+                <td>{{ player['currentAge'] }}</td>
+                <td>{{ player['height'] }}</td>
+                <td>{{ player['weight'] }}</td>
+                <td>{{ player['draftYear'] }}</td>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% if noStats == true %}
+    <div>No MLB Stats for this Player</div>
+{% elif player['primaryPosition']['abbreviation'] == 'P' %}
+    {{ pitcherstable(player) }}
+{% else %}
+    {{ hitterstable(player) }}
+{% endif %}
+{% endblock %}
