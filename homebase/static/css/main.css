@@ -31,6 +31,7 @@ header {
     top: 0;
     width: 100%;
     padding: 0.4em 0;
+    z-index: 10;
 }
 
 #nav-img {
@@ -93,7 +94,7 @@ table.standings thead th {
 table.standings thead th:first-of-type {
     width: 55%;
     text-align: left;
-    font-weight: bold;
+    font-weight: 600;
 }
 
 table.standings thead th:first-of-type {
@@ -113,7 +114,7 @@ table.standings tbody td:first-of-type {
 }
 
 table.standings tbody td:first-of-type a {
-    font-weight: bold;
+    font-weight: 600;
 }
 
 table.standings tbody tr:nth-child(even) td {
@@ -144,6 +145,161 @@ table.standings tbody tr:last-of-type td:last-of-type {
     margin-left: 5px;
 }
 /* HOME PAGE STYLES END */
+
+/* TEAM PAGE STYLE BEGIN */
+.team-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5em;
+}
+
+.team-section {
+    display: inline-flex;
+    flex-basis: 70%;
+    align-items: center;
+}
+
+#team-logo {
+    background-color: white;
+    max-width: 5%;
+    padding: 8px;
+    clip-path: circle();
+}
+
+#team-info {
+    margin-left: 0.7em;
+}
+
+#team-info > #team-name {
+    font-size: large;
+    font-weight: 600;
+    color: white;
+}
+
+#team-record > span {
+    color: var(--secondary);
+}
+
+#team-record {
+    color:white;
+}
+
+.input-area {
+    display: inline-flex;
+    overflow: hidden;
+    background-color: white;
+    border-radius: 25px;
+    padding: 3px;
+}
+
+.radio-input {
+    display: none;
+}
+
+.radio-label {
+    cursor: pointer;
+    color: var(--secondary);
+    padding: 5px 20px;
+    font-weight: 600;
+    font-size: small;
+}
+
+.radio-input:checked + .radio-label {
+    background-color: var(--secondary);
+    color: white;
+    border-radius: 15px;
+}
+
+.roster-table {
+    table-layout: fixed;
+    font-size: small;
+    width: 100%;
+    background-color: var(--primary);
+    margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+table.roster-table th,
+table.roster-table td {
+    padding: 5px 10px 5px 5px;
+}
+
+
+table.roster-table thead tr {
+    color: white;
+}
+
+table.roster-table thead th {
+    width: auto;
+    background-color: var(--secondary);
+}
+
+table.roster-table thead th#player-name {
+    width: 40%;
+    text-align: left;
+}
+
+table.roster-table tbody td {
+    text-align: center;
+}
+
+table.roster-table tbody td#jersey-number {
+    color: var(--secondary);
+}
+
+table.roster-table tbody td#player-name {
+    text-align: left;
+    padding: 5px 0 0 0;
+    vertical-align: middle;
+}
+
+table.roster-table tbody tr td img#player-img {
+    height: 30px;
+    vertical-align: bottom;
+}
+
+table.roster-table tbody tr td#player-name p {
+    display: inline-block;
+    margin-bottom: 8px;
+    margin-left: 5px;
+}
+
+table.roster-table tbody tr td#player-name a {
+    font-weight: 600;
+}
+
+table.roster-table thead th:first-of-type {
+    border-top-left-radius: 5px;
+}
+
+table.roster-table thead th:last-of-type {
+    border-top-right-radius: 5px;
+}
+
+
+
+table.roster-table tbody tr:nth-child(even) td {
+    background-color: var(--offset);
+}
+
+table.roster-table tbody tr:nth-child(odd) td {
+    background-color: white;
+}
+
+table.roster-table tbody tr:last-of-type {
+    background-color: var(--primary);
+}
+
+table.roster-table tbody tr:last-of-type td:first-of-type {
+    border-bottom-left-radius: 5px;
+}
+
+table.roster-table tbody tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 5px;
+}
+
 
 
 #pitchers_tbl {

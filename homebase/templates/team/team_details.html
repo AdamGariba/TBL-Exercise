@@ -2,23 +2,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div>
-    <img src="" alt="TeamLogo" />
-    <div id="team-info">
-        <div>{{ teamInfo['name'] }}</div>
-        <div>{{ teamInfo['place_in_division'] }} in {{ teamInfo['division_name'] }}  {{ teamInfo['wins_this_season'] }} - {{ teamInfo['losses_this_season'] }} ({{ teamInfo['win_pct'] }}) &#183; {{ teamInfo['games_back'] }} GB</div>
+<div class="team-container">
+    <div class="team-section">
+        <img id="team-logo" src="https://www.mlbstatic.com/team-logos/{{ teamInfo['id'] }}.svg" alt="TeamLogo" />
+        <div id="team-info">
+            <div id="team-name">{{ teamInfo['name'] }}</div>
+            <div id="team-record"><span>{{ teamInfo['place_in_division'] }} in {{ teamInfo['division_name'] }}</span> &nbsp;&nbsp; {{ teamInfo['wins_this_season'] }} - {{ teamInfo['losses_this_season'] }} ({{ teamInfo['win_pct'] }}) &#183; {{ teamInfo['games_back'] }} GB</div>
+        </div>
     </div>
+    <div class="input-area">
+        <input class="radio-input" type="radio" id="hitters" name="player" checked="checked" onclick="showTable()">
+        <label class="radio-label" for="hitters">Hitters</label>
+        <input class="radio-input" type="radio" id="pitchers" name="player" onclick="showTable()">
+        <label class="radio-label" for="pitchers">Pitchers</label>
+    </div>  
 </div>
-<input type="radio" id="hitters" name="player" checked="checked" onclick="showTable()">
-<label for="hitters">Hitters</label>
-<input type="radio" id="pitchers" name="player" onclick="showTable()">
-<label for="pitchers">Pitchers</label>
 
-<table id="hitters_tbl">
+<table class="roster-table" id="hitters_tbl">
     <thead>
         <th>Pos</th>
-        <th>#</th>
-        <th>Player</th>
+        <th id="jersey-number">#</th>
+        <th id="player-name">Player</th>
         <th>Age</th>
         <th>B</th>
         <th>T</th>
@@ -39,11 +43,11 @@
         <tr>
             <td>{{ player['primaryPosition']['abbreviation'] }}</td>
             {% if player['primaryNumber'] %}
-                <td>{{ player['primaryNumber'] }}</td>
+                <td id="jersey-number">{{ player['primaryNumber'] }}</td>
             {% else %}
-                <td>-</td>
+                <td id="jersey-number">-</td>
             {% endif %}
-            <td><a href="/player/{{ player['id'] }}">{{ player['lastFirstName'] }}</a></td>
+            <td id="player-name"><img id="player-img" src="https://content.mlb.com/images/headshots/current/60x60/{{ player['id'] }}.png" alt=""/><p><a href="/player/{{ player['id'] }}">{{ player['lastFirstName'] }}</a></p></td>
             <td>{{ player['currentAge'] }}</td>
             <td>{{ player['batSide']['code'] }}</td>
             <td>{{ player['pitchHand']['code'] }}</td>
@@ -76,11 +80,11 @@
         {% endfor %}
     </tbody>
 </table>
-<table id="pitchers_tbl">
+<table class="roster-table" id="pitchers_tbl">
     <thead>
         <th>Pos</th>
-        <th>#</th>
-        <th>Pitcher</th>
+        <th id="jersey-number">#</th>
+        <th id="player-name">Pitcher</th>
         <th>Age</th>
         <th>T</th>
         <th>IP</th>
@@ -97,11 +101,11 @@
         <tr>
             <td>{{ player['primaryPosition']['abbreviation'] }}</td>
             {% if player['primaryNumber'] %}
-                <td>{{ player['primaryNumber'] }}</td>
+                <td id="jersey-number">{{ player['primaryNumber'] }}</td>
             {% else %}
-                <td>-</td>
+                <td id="jersey-number">-</td>
             {% endif %}
-            <td><a href="/player/{{ player['id'] }}">{{ player['lastFirstName'] }}</a></td>
+            <td id="player-name"><img id="player-img" src="https://content.mlb.com/images/headshots/current/60x60/{{ player['id'] }}.png" alt=""/><p><a href="/player/{{ player['id'] }}">{{ player['lastFirstName'] }}</a></p></td>
             <td>{{ player['currentAge'] }}</td>
             <td>{{ player['pitchHand']['code'] }}</td>
             {% if player['stats'] %}
