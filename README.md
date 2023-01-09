@@ -18,11 +18,11 @@ Activate that virtual environment after it has been created:
 
 For Windows:
 ```
-python venv/Scripts/activate
+source venv/Scripts/activate
 ```
-For Linux/macOs:
+OR For Linux/macOs:
 ```
-python venv/bin/activate
+source venv/bin/activate
 ```
 Add the dependencies to the virtual environment:
 ```
