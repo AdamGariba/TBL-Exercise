@@ -71,10 +71,7 @@ table.standings {
     border-spacing: 0;
 }
 
-table.standings img {
-    height: 15px;
-    padding-right: 5px;
-}
+
 
 table.standings th,
 table.standings td {
@@ -107,6 +104,19 @@ table.standings thead th:last-of-type {
 
 table.standings tbody td {
     text-align: center;
+}
+
+table.standings tbody td#division {
+    display: flex;
+    align-items: center;
+}
+
+table.standings tbody td#division img {
+    height: 15px;
+}
+
+table.standings tbody td#division p {
+    margin-left: 5px;
 }
 
 table.standings tbody td:first-of-type {
@@ -278,8 +288,6 @@ table.roster-table thead th:last-of-type {
     border-top-right-radius: 5px;
 }
 
-
-
 table.roster-table tbody tr:nth-child(even) td {
     background-color: var(--offset);
 }
@@ -300,10 +308,151 @@ table.roster-table tbody tr:last-of-type td:last-of-type {
     border-bottom-right-radius: 5px;
 }
 
-
-
 #pitchers_tbl {
     display: none;
 }
 
 
+/* TEAM STYLES END */
+
+
+/* PLAYER STYLES START */
+
+.player-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.player-info {
+    display: inline-flex;
+    flex-basis: 70%;
+    align-items: center;
+}
+
+.player-info img {
+    margin-left: 10px;
+}
+
+#player-page-name {
+    color: white;
+    font-size: large;
+    font-weight: 600;
+}
+
+#player-pos-team span {
+    color: var(--secondary);
+}
+
+#player-pos-team a {
+    color: white;
+}
+
+.player-bio {
+    flex-basis: 25%;
+}
+
+.player-bio-table {
+    table-layout: fixed;
+    font-size: small;
+    width: 100%;
+    background-color: var(--primary);
+    margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.player-bio-table thead th {
+    text-align: left;
+    font-size: small;
+    font-weight: 600;
+    color: var(--secondary);
+}
+
+.player-bio-table tbody td {
+    text-align: left;
+    font-size: medium;
+    font-weight: 600;
+    color: white;
+}
+
+.player-stats-table {
+    table-layout: fixed;
+    font-size: small;
+    width: 100%;
+    background-color: var(--primary);
+    margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+table.player-stats-table thead tr {
+    color: white;
+}
+
+table.player-stats-table thead th {
+    width: auto;
+    background-color: var(--secondary);
+    text-align: center;
+    font-weight: 600;
+}
+
+table.player-stats-table thead th#team-abbr {
+    width: 40%;
+    text-align: left;
+    padding-left: 8px;
+}
+
+table.player-stats-table tbody td#team-abbr {
+    display: inline-flex;
+    text-align: left;
+    align-items: center;
+    width: 100%;
+}
+
+table.player-stats-table tbody td#team-abbr img {
+    height: 20px;
+}
+
+table.player-stats-table tbody td#team-abbr p {
+    margin-left: 10px;
+}
+
+table.player-stats-table tbody td {
+    text-align: center;
+}
+
+table.player-stats-table tbody tr td#team-abbr a {
+    font-weight: 600;
+}
+
+table.player-stats-table tbody tr:nth-child(even) td {
+    background-color: var(--offset);
+}
+
+table.player-stats-table tbody tr:nth-child(odd) td {
+    background-color: white;
+}
+
+table.player-stats-table thead th:first-of-type {
+    border-top-left-radius: 5px;
+    padding: 5px;
+}
+
+table.player-stats-table tbody td {
+    padding: 10px;
+}
+
+table.player-stats-table thead th:last-of-type {
+    border-top-right-radius: 5px;
+}
+
+table.player-stats-table tbody tr:last-of-type td:first-of-type {
+    border-bottom-left-radius: 5px;
+}
+
+table.player-stats-table tbody tr:last-of-type td:last-of-type {
+    border-bottom-right-radius: 5px;
+}
+
+/* PLAYERS STYLES END */

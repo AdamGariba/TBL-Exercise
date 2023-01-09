@@ -4,11 +4,13 @@
 {% block content %}
 <div class="player-banner">
     <div class="player-info">
-        <img src="" alt="player-picture"/>
+        <img src="https://content.mlb.com/images/headshots/current/60x60/{{ player['id'] }}@2x.png" alt="player-picture"/>
         <div>
-            {{ player['nameFirstLast'] }}
-            {{ player['primaryPosition']['abbreviation'] }}
-            <a href="/team/{{ player['currentTeamId'] }}">{{ player['currentTeam'] }}</a>
+            <div id="player-page-name">{{ player['nameFirstLast'] }}</div>
+            <div id="player-pos-team">
+                <span>{{ player['primaryPosition']['abbreviation'] }}</span>
+                <a href="/team/{{ player['currentTeamId'] }}">{{ player['currentTeam'] }}</a>
+            </div>
         </div>
     </div>
     <div class="player-bio">

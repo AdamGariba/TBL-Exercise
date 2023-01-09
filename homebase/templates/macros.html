@@ -26,7 +26,7 @@
         <tbody>
             {% for teamrecord in record['teamRecords'] %}
                 <tr>
-                    <td id="division"><img src="https://www.mlbstatic.com/team-logos/{{ teamrecord['team']['id'] }}.svg"/><a href="team/{{ teamrecord['team']['id'] }}">{{ teamrecord['team']['abbr'] }}</a></td>
+                    <td id="division"><img src="https://www.mlbstatic.com/team-logos/{{ teamrecord['team']['id'] }}.svg"/><p><a href="team/{{ teamrecord['team']['id'] }}">{{ teamrecord['team']['abbr'] }}</a></p></td>
                     <td>{{ teamrecord['leagueRecord']['wins'] }}</td>
                     <td>{{ teamrecord['leagueRecord']['losses'] }}</td>
                     <td>{{ teamrecord['leagueRecord']['pct'] }}</td>
@@ -40,11 +40,11 @@
 {% endmacro %}
 
 {% macro hitterstable(player) %}
-<table class="hitters-table">
+<table class="player-stats-table">
     <thead>
         <tr>
             <th>Year</th>
-            <th>Team</th>
+            <th id="team-abbr">Team</th>
             <th>G</th>
             <th>PA</th>
             <th>AB</th>
@@ -67,7 +67,7 @@
         {% if "numTeams" not in season %}
             <tr>
                 <td>{{ season['season'] }}</td>
-                <td><a href="/team/{{ season['team']['id'] }}">{{ season['team']['abbr'] }}</a></td>
+                <td id="team-abbr"><img src="https://www.mlbstatic.com/team-logos/{{ season['team']['id'] }}.svg" alt=""><p><a href="/team/{{ season['team']['id'] }}">{{ season['team']['abbr'] }}</a></p></td>
                 <td>{{ season['stat']['gamesPlayed'] }}</td>
                 <td>{{ season['stat']['plateAppearances'] }}</td>
                 <td>{{ season['stat']['atBats'] }}</td>
@@ -91,11 +91,11 @@
 {% endmacro %}
 
 {% macro pitcherstable(player) %}
-<table class="pitchers-table">
+<table class="player-stats-table">
     <thead>
         <tr>
             <th>Year</th>
-            <th>Team</th>
+            <th id="team-abbr">Team</th>
             <th>G</th>
             <th>IP</th>
             <th>W</th>
@@ -116,7 +116,7 @@
         {% if "numTeams" not in season %}
             <tr>
                 <td>{{ season['season'] }}</td>
-                <td><a href="/team/{{ season['team']['id'] }}">{{ season['team']['abbr'] }}</a></td>
+                <td id="team-abbr"><img src="https://www.mlbstatic.com/team-logos/{{ season['team']['id'] }}.svg" alt=""><p><a href="/team/{{ season['team']['id'] }}">{{ season['team']['abbr'] }}</a></p></td>
                 <td>{{ season['stat']['gamesPlayed'] }}</td>
                 <td>{{ season['stat']['inningsPitched'] }}</td>
                 <td>{{ season['stat']['wins'] }}</td>
