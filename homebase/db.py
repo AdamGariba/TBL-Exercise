@@ -147,14 +147,13 @@ def getRowsOfPlayers(teams_list):
            roster = results['roster']
 
            for player in roster:
-               tp = TeamPlayers.TeamPlayers()
-               tp.player_id = player['person']['id']
-               tp.team_id = player['parentTeamId']
+              tp = TeamPlayers.TeamPlayers()
+              tp.player_id = player['person']['id']
+              tp.team_id = player['parentTeamId']
 
-               rows_players.append(tp.as_tuple())
+              rows_players.append(tp.as_tuple())       
 
-            # Sleep for 1 second to prevent timeouts from api   
-            time.sleep(1)
+           time.sleep(1)
 
         return rows_players
     except requests.exceptions.HTTPError as errh:
