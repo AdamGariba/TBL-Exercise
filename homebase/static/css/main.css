@@ -455,4 +455,20 @@ table.player-stats-table tbody tr:last-of-type td:last-of-type {
     border-bottom-right-radius: 5px;
 }
 
+#category-heading {
+    color: white;
+    font-size: large;
+    margin-bottom: 0.3em;
+}
+
+#no-stats {
+    background-color: white;
+    width: 100%;
+    text-align: center;
+    padding: 2em;
+    border-radius: 5px;
+    font-size: large;
+    font-weight: 600;
+}
+
 /* PLAYERS STYLES END */

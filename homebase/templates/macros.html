@@ -39,7 +39,7 @@
     </table>
 {% endmacro %}
 
-{% macro hitterstable(player) %}
+{% macro hitterstable(player, index) %}
 <table class="player-stats-table">
     <thead>
         <tr>
@@ -63,7 +63,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for season in player['stats']['splits'] %}
+        {% for season in player['stats'][index]['splits'] %}
         {% if "numTeams" not in season %}
             <tr>
                 <td>{{ season['season'] }}</td>
@@ -90,7 +90,7 @@
 </table>
 {% endmacro %}
 
-{% macro pitcherstable(player) %}
+{% macro pitcherstable(player, index) %}
 <table class="player-stats-table">
     <thead>
         <tr>
@@ -112,7 +112,7 @@
         </tr>
     </thead>
     <tbody>
-        {% for season in player['stats']['splits'] %}
+        {% for season in player['stats'][index]['splits'] %}
         {% if "numTeams" not in season %}
             <tr>
                 <td>{{ season['season'] }}</td>

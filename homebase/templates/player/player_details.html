@@ -4,7 +4,7 @@
 {% block content %}
 <div class="player-banner">
     <div class="player-info">
-        <img src="https://content.mlb.com/images/headshots/current/60x60/{{ player['id'] }}@2x.png" alt="player-picture"/>
+        <img src="https://content.mlb.com/images/headshots/current/60x60/{{ player['id'] }}@2x.png" alt=""/>
         <div>
             <div id="player-page-name">{{ player['nameFirstLast'] }}</div>
             <div id="player-pos-team">
@@ -33,10 +33,15 @@
     </div>
 </div>
 {% if noStats == true %}
-    <div>No MLB Stats for this Player</div>
+    <div id="no-stats">No MLB Stats for this Player</div>
 {% elif player['primaryPosition']['abbreviation'] == 'P' %}
-    {{ pitcherstable(player) }}
+    {{ pitcherstable(player, 0) }}
+{% elif player['primaryPosition']['abbreviation'] == 'TWP' %}
+    <div id="category-heading">Pitching Statistics</div>
+    {{ pitcherstable(player, 0) }}
+    <div id="category-heading">Hitting Statistics</div>
+    {{ hitterstable(player, 1) }}
 {% else %}
-    {{ hitterstable(player) }}
+    {{ hitterstable(player, 0) }}
 {% endif %}
 {% endblock %}

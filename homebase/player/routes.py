@@ -22,15 +22,27 @@ def playerDetails(player_id):
 
         # Determine if this player has stats to display
         if "stats" in player:
+            statDictList = []
             if player['primaryPosition']['name'] == "Pitcher":
                 # Get pitching statistics
                 statDict = getStatsByGroup(player['stats'], "pitching")
+                statDictList.append(statDict)
+                
+            elif player['primaryPosition']['abbreviation'] == "TWP":
+                # Get pitching and hitting statistics
+                statDictPitching = getStatsByGroup(player['stats'], "pitching")
+                statDictHitting = getStatsByGroup(player['stats'], "hitting")
+
+                statDictList.append(statDictPitching)
+                statDictList.append(statDictHitting)
             else:
+                # Get hitting statistics
                 statDict = getStatsByGroup(player['stats'], "hitting")
+                statDictList.append(statDict)
 
-            getAbbreviationsForTeams(statDict, db)
+            getAbbreviationsForTeams(statDictList, db)
 
-            player['stats'] = statDict
+            player['stats'] = statDictList
 
             return render_template('player/player_details.html', player=player, noStats=noStats)
         else:
@@ -51,8 +63,9 @@ def getStatsByGroup(statsList, groupName):
         if s['group']['displayName'] == groupName:
             return s
 
-def getAbbreviationsForTeams(statDict, db):
-    for season in statDict['splits']:
-        if "numTeams" not in season:
-            row = db.execute('SELECT abbr FROM team WHERE id=?;', (season['team']['id'],)).fetchone()
-            season['team']['abbr'] = row['abbr'] 
+def getAbbreviationsForTeams(statDictList, db):
+    for s in statDictList:
+        for season in s['splits']:
+            if "numTeams" not in season:
+                row = db.execute('SELECT abbr FROM team WHERE id=?;', (season['team']['id'],)).fetchone()
+                season['team']['abbr'] = row['abbr'] 
