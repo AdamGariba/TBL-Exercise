@@ -11,6 +11,15 @@ from .models import Division, Team, TeamPlayers
 BASE_URL = "https://statsapi.mlb.com"
 
 def get_db():
+    '''
+    Returns a connection object to the database, to be used throughout the application
+
+    Parameters:
+        none
+    
+    Returns:
+        Return db object in the global context
+    '''
     if 'db' not in g:
         g.db = sqlite3.connect(
             current_app.config['DATABASE'],
@@ -21,12 +30,30 @@ def get_db():
     return g.db
 
 def close_db(e=None):
+    '''
+    Removes db object from the application context and closes the connection
+
+    Parameters:
+        none
+    
+    Returns:
+        nothing
+    '''
     db = g.pop('db', None)
 
     if db is not None:
         db.close()
 
 def init_db():
+    '''
+    Initializes the database with a combination of a schema file and data from external mlb api
+
+    Parameters:
+        none
+
+    Returns:
+        nothing
+    '''
     db = get_db()
 
     with current_app.open_resource('schema.sql') as f:
@@ -44,7 +71,17 @@ def init_db():
     db.commit()
 
 # Function generates a list of tuples to insert into table
-def getRowsOfDivsTeams(endpoint): 
+def getRowsOfDivsTeams(endpoint):
+    '''
+    Returns a tuple of lists of data to be entered in the division and team tables
+    Data is from the mlb api
+
+    Parameters:
+        endpoint (str): A string containing the endpoint to the data needed
+
+    Returns:
+        rows_divisions (list of tuples), rows_teams (list of tuples)
+    '''
     try:
         rows_divisions = []
         rows_teams = []
@@ -90,6 +127,16 @@ def getRowsOfDivsTeams(endpoint):
         return [e.as_tuple()]
 
 def getRowsOfPlayers(teams_list):
+    '''
+    Returns a list of tuples of data to be entered into teamplayers table
+    Iterates over each team's roster and collects player id and associated team id
+
+    Parameters:
+        teams_list (list): List of team ids
+    
+    Returns:
+        rows_players (list): List of tuples to be entered in database
+    '''
     try:
         rows_players = []
         for team in teams_list:
@@ -106,7 +153,8 @@ def getRowsOfPlayers(teams_list):
 
                rows_players.append(tp.as_tuple())
 
-           time.sleep(1)
+            # Sleep for 1 second to prevent timeouts from api   
+            time.sleep(1)
 
         return rows_players
     except requests.exceptions.HTTPError as errh:
@@ -114,6 +162,16 @@ def getRowsOfPlayers(teams_list):
         return [e.as_tuple()]
 
 def getTeamAbbr(endpoint):
+    '''
+    Returns the abbreviations associated with team
+
+    Parameters:
+        endpoint (str): Endpoint to the data from the api
+    
+    Returns:
+        The team abbreviation
+        If there is an error with the request it will return ZZZ
+    '''
     try:
         response = requests.get(f"{BASE_URL}{endpoint}")
         response.raise_for_status()
@@ -123,10 +181,18 @@ def getTeamAbbr(endpoint):
 
         return team['abbreviation']
     except requests.exceptions.HTTPError as errh:
-        print(errh)
         return "ZZZ"
 
 def ordinal(num):
+    '''
+    Converts number to its english (ordinal) representation
+
+    Parameters:
+        num (str): A str representing a number to be converted
+    
+    Returns:
+        English representation of the passed number
+    '''
     if num == '1':
         return num + 'st'
     elif num == '2':
@@ -138,6 +204,16 @@ def ordinal(num):
 
 
 def updateTeamRecords(record, db):
+    '''
+    Updates division and team tables if datestored in database is older than the one from api
+
+    Parameters:
+        record (dict): Dictionary containing the division information
+        db (object): Reference to a database object connection
+    
+    Returns:
+        Nothing
+    '''
     # Compare datestrings
     # If database string is less than argument; update database
     db_datestring = db.execute('SELECT last_Updated FROM division WHERE id=?;', (record['division']['id'],)).fetchone()
@@ -179,5 +255,8 @@ def init_db_command():
     click.echo('Initialized the database.')
 
 def init_app(app):
+    '''
+    On app initialization, add the initialize database command
+    '''
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
