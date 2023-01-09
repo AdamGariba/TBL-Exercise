@@ -8,10 +8,18 @@ team_bp = Blueprint('team_bp', __name__)
 
 @team_bp.route('/team/<team_id>')
 def teamDetails(team_id):
+    '''
+    Gets information related to a roster of a team and renders the team page view with data
+
+    Parameters:
+        team_id (int): The id of the team being fetched
+    
+    Returns:
+        Redirects to the team view with the necessary data
+    '''
     try:
         # Get team info
         db = get_db()
-        #teamInfo = db.execute("SELECT * FROM team WHERE id=?", (team_id,)).fetchone()
         teamInfo = db.execute("SELECT team.id, team.name, division.name AS division_name, team.wins_this_season, team.losses_this_season, team.win_pct, team.games_back, team.place_in_division FROM team INNER JOIN division ON team.division_id=division.id WHERE team.id=?", (team_id,)).fetchone()
 
 
@@ -56,6 +64,16 @@ def teamDetails(team_id):
 
 
 def calculatePitchingStats(pitcher, statIndex):
+    '''
+    Returns a dictionary referring to a pitcher's stats with the calculated stats included
+
+    Parameters:
+        pitcher (dict): A dictionary for a specific pitcher
+        statIndex (int): A number indicated the index that the pitching stats are located
+    
+    Returns:
+        Dictionary with the calculated stats included
+    '''
     if "stats" in pitcher:
         bf = pitcher['stats'][statIndex]['splits'][0]['stat']['battersFaced'] 
         so = pitcher['stats'][statIndex]['splits'][0]['stat']['strikeOuts'] 
@@ -69,6 +87,16 @@ def calculatePitchingStats(pitcher, statIndex):
     return pitcher
 
 def calculateHittingStats(hitter, statIndex):
+    '''
+    Returns a dictionary referring to a hitter's stats with the calculated stats included
+
+    Parameters:
+        hitter (dict): A dictionary for a specific hitter
+        statIndex (int): A number indicated the index that the pitching stats are located
+    
+    Returns:
+        Dictionary with the calculated stats included
+    '''
     if "stats" in hitter:
         pa = hitter['stats'][statIndex]['splits'][0]['stat']['plateAppearances'] 
         so = hitter['stats'][statIndex]['splits'][0]['stat']['strikeOuts'] 
@@ -82,6 +110,17 @@ def calculateHittingStats(hitter, statIndex):
     return hitter
 
 def getTwoWayPlayerStats(playerId):
+    '''
+    Returns a dictionary with the calculated stats for a two-way player (significant pitching and hitting stats)
+
+    Parameters:
+        playerId (int): Id for the player
+    
+    Returns:
+        twoWayPlayer (dict): Dictionary containing the player's calculated stats
+        pitchIdx (int): Number indicating where the player's pitching stats are located in dictionary
+        hitIdx (int): Number indicating where the player's hitting stats are located in the dictionary
+    '''
     try:
         tw_req = requests.get(f"https://statsapi.mlb.com/api/v1/people/{playerId}?hydrate=stats(group=[hitting,pitching],type=[season])")
         tw_req.raise_for_status()

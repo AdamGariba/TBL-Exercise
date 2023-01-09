@@ -12,6 +12,16 @@ BASE_URL = "https://statsapi.mlb.com"
 
 @home_bp.route("/")
 def index():
+    '''
+    Returns the Home page view of the application;
+    Performs the initial get for standings data and saves the updated data to the database
+
+    Parameters:
+        none
+
+    Returns:
+        The home view with the necessary data included
+    '''
     try:
         db = get_db()
         teams_list = db.execute('SELECT id, abbr FROM team').fetchall()
