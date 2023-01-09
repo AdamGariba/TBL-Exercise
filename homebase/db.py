@@ -222,7 +222,7 @@ def updateTeamRecords(record, db):
     
     if rec_date > db_date:
         recordsToUpdate = []
-        for t in teamrecords:
+        for t in record['teamrecords']:
             tr = Team.TeamRecords()
             tr.team_id = t['team']['id']
             tr.wins_this_season = t['leagueRecord']['wins']
