@@ -66,6 +66,11 @@ or
 Cmd+C (Mac)
 ```
 
+You can deactivate the virtual environment by typing the following into the terminal:
+```
+deactivate
+```
+
 If you have any questions please let me know!
 
 You can reach me at my email that we have correspondance with.
