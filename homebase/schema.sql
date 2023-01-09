@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS teamplayers;
 
 CREATE TABLE division (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL,
+    last_updated TEXT
 );
 
 
@@ -23,6 +24,7 @@ CREATE TABLE team (
     last_ten TEXT NOT NULL DEFAULT '',
     run_diff INTEGER NOT NULL DEFAULT -1,
     place_in_division TEXT,
+    last_updated TEXT,
     FOREIGN KEY (division_id) REFERENCES division (id)
 );
 

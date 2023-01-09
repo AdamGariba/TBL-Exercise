@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from datetime import timedelta
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -8,6 +9,10 @@ def create_app(test_config=None):
             DATABASE=os.path.join(app.instance_path, 'homebase.sqlite'),
     )
 
+    app.config.update(
+        SESSION_COOKIE_SAMESITE='Lax',
+        PERMANENT_SESSION_LIFETIME=timedelta(minutes=60)
+    )
     if test_config is None:
         app.config.from_pyfile('config.py', silent=True)
     else:

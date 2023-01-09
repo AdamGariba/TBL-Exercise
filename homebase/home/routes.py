@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, abort
+from datetime import datetime
+from flask import Blueprint, render_template, abort, session
 import requests
 
-from ..db import get_db
+from ..db import get_db, updateTeamRecords
 
 home_bp = Blueprint('home_bp', __name__)
 
@@ -21,6 +22,18 @@ def index():
         response.raise_for_status()
 
         results = response.json()
+
+        # If session timestamp is greater than 1 hour update the db
+        if "lastUpdated" not in session:
+            updateTeamRecords(results['records'][0], db)
+            updateTeamRecords(results['records'][1], db)
+            updateTeamRecords(results['records'][2], db)
+            updateTeamRecords(results['records'][3], db)
+            updateTeamRecords(results['records'][4], db)
+            updateTeamRecords(results['records'][5], db)
+
+            now = datetime.now()
+            session['lastUpdate'] = now.strftime("%d/%m/%Y %H:%M:%S")
 
         for r in results['records']:
             for t in r['teamRecords']:

@@ -1,11 +1,12 @@
 import sqlite3
 import time
+import datetime
 
 import click
 from flask import current_app, g
 import requests
 
-from .models import Team, TeamPlayers
+from .models import Division, Team, TeamPlayers
 
 BASE_URL = "https://statsapi.mlb.com"
 
@@ -32,8 +33,10 @@ def init_db():
         db.executescript(f.read().decode('utf8'))
 
     # Fill teams
-    rows_teams = getRowsOfTeams("/api/v1/standings?leagueId=103,104")
-    db.executemany('INSERT INTO team (id, division_id, name, abbr, wins_this_season, losses_this_season, win_pct, wild_card_games_back, games_back, last_ten, run_diff, place_in_division) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', rows_teams)
+    rows_divisions, rows_teams = getRowsOfDivsTeams("/api/v1/standings?leagueId=103,104")
+    db.executemany('UPDATE division SET last_updated=? WHERE id=?', rows_divisions)
+    db.commit()
+    db.executemany('INSERT INTO team (id, division_id, name, abbr, wins_this_season, losses_this_season, win_pct, wild_card_games_back, games_back, last_ten, run_diff, place_in_division, last_updated) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);', rows_teams)
     db.commit()
 
     rows_players = getRowsOfPlayers(rows_teams)
@@ -41,8 +44,9 @@ def init_db():
     db.commit()
 
 # Function generates a list of tuples to insert into table
-def getRowsOfTeams(endpoint): 
+def getRowsOfDivsTeams(endpoint): 
     try:
+        rows_divisions = []
         rows_teams = []
         response = requests.get(f"{BASE_URL}{endpoint}")
         response.raise_for_status()
@@ -51,6 +55,11 @@ def getRowsOfTeams(endpoint):
         records = results['records']
 
         for div in records:
+            d = Division.Division()
+            d.division_id = div['division']['id']
+            d.lastUpdated = div['lastUpdated']
+            rows_divisions.append(d.as_tuple())
+
             t = Team.Team() 
             t.division_id = div['division']['id']
             for team in div['teamRecords']:
@@ -70,10 +79,12 @@ def getRowsOfTeams(endpoint):
 
                 t.place_in_division = ordinal(team['divisionRank'])
 
+                t.lastUpdated = team['lastUpdated']
+
                 # Append as tuples
                 rows_teams.append(t.as_tuple())
 
-        return rows_teams
+        return rows_divisions, rows_teams
     except requests.exceptions.HTTPError as errh:
         e = Team.Team()
         return [e.as_tuple()]
@@ -124,6 +135,41 @@ def ordinal(num):
         return num + 'rd'
     else:
         return num + 'th'
+
+
+def updateTeamRecords(record, db):
+    # Compare datestrings
+    # If database string is less than argument; update database
+    db_datestring = db.execute('SELECT last_Updated FROM division WHERE id=?;', (record['division']['id'],)).fetchone()
+
+    db_date = datetime.datetime.strptime(db_datestring['last_updated'], "%Y-%m-%dT%H:%M:%S.%fZ").date()
+    rec_date = datetime.datetime.strptime(record['lastUpdated'], "%Y-%m-%dT%H:%M:%S.%fZ").date()
+    
+    if rec_date > db_date:
+        recordsToUpdate = []
+        for t in teamrecords:
+            tr = Team.TeamRecords()
+            tr.team_id = t['team']['id']
+            tr.wins_this_season = t['leagueRecord']['wins']
+            tr.losses_this_season = t['leagueRecord']['losses']
+            tr.win_pct = t['leagueRecord']['pct']
+            tr.wild_card_games_back = t['wildCardGamesBack']
+            tr.games_back = t['gamesBack']
+            tr.last_ten = str(t['records']['splitRecords'][8]['wins']) + "-" + str(t['records']['splitRecords'][8]['losses'])
+            tr.run_diff = t['runDifferential']
+            tr.place_in_division = ordinal(t['divisionRank'])
+            tr.lastUpdated = t['lastUpdated']
+            recordsToUpdate.append(tr.as_tuple())
+        
+        # Update teams table
+        db.executemany('UPDATE team SET wins_this_season=?, losses_this_season=?, win_pct=?, wild_card_games_back=?, games_back=?, last_ten=?, run_diff=?, place_in_division=?, last_updated=? WHERE id=?;', recordsToUpdate)
+        db.commit()
+
+        # Update division table
+        db.execute('UPDATE division SET last_updated=? WHERE id=?', (record['lastUpdated'], record['division']['id']))
+        db.commit()
+
+
 
 
 @click.command('init-db')
