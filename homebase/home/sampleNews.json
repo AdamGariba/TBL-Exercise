@@ -1,0 +1,39 @@
+{
+    "status": "ok",
+    "totalResults": 3,
+    "articles": [
+        {
+            "source": {
+                "id": null,
+                "name": "MLB.com"
+            },
+            "author": "Jonathan Mayo",
+            "title": "2023 Rookie of the Year picks by MLB front offices",
+            "description": "While it might have surprised some people when Julio Rodríguez made the Opening Day lineup for the Mariners in 2022, ...",
+            "url": "https://www.mlb.com/news/2023-rookie-of-the-year-mlb-front-office-selections",
+            "publishedAt": "2023-01-08T23:21:25Z"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "Bleacher Report"
+            },
+            "author": "Zachary D. Rymer",
+            "title": "Realistic MLB Trades That Could Happen Before 2023 Spring Training",
+            "description": "With Major League Baseball firmly between the busy part of its offseason and the start of spring training, dreaming up trade scenarios is the best way to pass the time. So, let's do that. Within reason, of course.",
+            "url": "https://bleacherreport.com/articles/10060567-realistic-mlb-trades-that-could-happen-before-2023-spring-training",
+            "publishedAt": "2023-01-08T21:21:25Z"
+        },
+        {
+            "source": {
+                "id": null,
+                "name": "MLB.com"
+            },
+            "author": "Paul Casella",
+            "title": "Phillies add All-Star Soto in 5-player trade with Tigers",
+            "description": "PHILADELPHIA -- The Phillies continued to bolster their bullpen on Saturday, acquiring two-time All-Star Gregory Soto from the Tigers in a five-player deal.",
+            "url": "https://www.mlb.com/news/gregory-soto-trade-to-phillies",
+            "publishedAt": "2023-01-07T21:21:25Z"
+        }
+    ]
+}

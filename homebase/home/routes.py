@@ -1,4 +1,6 @@
 from datetime import datetime
+import json
+
 from flask import Blueprint, render_template, abort, session
 import requests
 
@@ -39,7 +41,14 @@ def index():
             for t in r['teamRecords']:
                 t['team']['abbr'] = teams[t['team']['id']]
 
+        
+        # Demonstration of a possible news component
+        with open('homebase/home/sampleNews.json', 'r') as f:
+            newsList = json.load(f)
 
-        return render_template("home/index.html", records=results['records']) 
+        news = newsList['articles'] 
+
+
+        return render_template("home/index.html", records=results['records'], news=news) 
     except requests.exceptions.HTTPError as errh:
         abort(errh.response.status_code)

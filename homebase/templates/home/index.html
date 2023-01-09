@@ -15,5 +15,24 @@
             {% endfor %}
         </div>
     </div>
+    <br>
+    <div id="home-title-bar">News</div>
+    <div class="news-container">
+        {% for article in news %}
+        <a href="{{ article['url'] }}" target="_blank" rel="noopener noreferrer">
+            <div class="news-item">
+                <div class="news-title">
+                    {{ article['title'] }} | {{ article['source']['name'] }}
+                </div>
+                <div class="news-author">
+                    Author: {{ article['author'] }}
+                </div>
+                <div class="news-desc">
+                    {{ article['description'] }}
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
     
 {% endblock %}

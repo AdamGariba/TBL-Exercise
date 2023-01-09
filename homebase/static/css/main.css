@@ -154,6 +154,44 @@ table.standings tbody tr:last-of-type td:last-of-type {
 #NL {
     margin-left: 5px;
 }
+
+.news-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.news-container a {
+    text-decoration: none;
+    color: black;
+}
+
+.news-item:nth-child(odd) {
+    background-color: white;
+}
+
+.news-item {
+    margin-bottom: 10px;
+    padding: 1em;
+    border-radius: 10px;
+}
+
+.news-item:nth-child(even) {
+    background-color: var(--offset);
+}
+
+.news-title {
+    font-size: large;
+    font-weight: 600;
+}
+
+.news-desc {
+    color: var(--secondary);
+    font-size: small;
+}
+
+
 /* HOME PAGE STYLES END */
 
 /* TEAM PAGE STYLE BEGIN */
